@@ -12,7 +12,7 @@ contract Inbox{
         message = _SetMessage;
     }
 
-    function GetMessage() public returns(string memory) {
+    function GetMessage() public view returns(string memory) {
         return message;
     }
 }
