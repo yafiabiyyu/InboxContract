@@ -6,6 +6,7 @@ from flask import (
     redirect,
     url_for,
     make_response,
+    jsonify
 )
 import os
 from web3 import Web3
@@ -41,7 +42,7 @@ def setMessage():
         transaction = contract.functions.SetMessage(str(new_message)).buildTransaction(
             {
                 "gas": 210000,
-                "gasPrice": web3.eth.gasPrice,
+                "gasPrice": web3.toWei('88','gwei'),
                 "from": str(default_account.address),
                 "nonce": nonce,
             }
@@ -49,7 +50,8 @@ def setMessage():
         signed_txn = web3.eth.account.signTransaction(transaction, private_key=priv_key)
         tx_id = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
         print(tx_id.hex())
-    return redirect(url_for("index"))
+        # return redirect(url_for("index"))
+    return jsonify({'tx_id':tx_id.hex()})
 
 
 def getMessage():
